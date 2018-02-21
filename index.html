@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>SKY ANGEL</title>
+      <meta name="viewport" content="width=device-width;initial-scale=0">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/clouds.css">
+  </head>
+  <body id="body">
+
+    <section id="hiderContainer"></section>
+
+    <div id="main">
+      <section id="startScreen">
+        <div class="absoluteCenter startScreen">
+          <p class="logo unselectable" id="logo"><span style="font-weight: 400">SKY</span><span style="font-weight: 100">ANGEL</span><sup style="font-weight: 400; font-size: 20px; vertical-align: text-top; line-height: 2.4">TM</sup></p>
+
+          <button id="backBtn" class="mainButton chevron-btn">BACK TO HOME</button>
+
+          <img id="instructionsImg" class="unselectable undraggable" src="assets/img/instructions.png">
+
+          <button id="startBtn" class="mainButton outline-btn">START</button>
+          <button id="instructionsBtn" class="mainButton full-btn">HOW TO PLAY</button>
+        </div>
+      </section>
+
+      <section id="planeContainer"></section>
+
+      <section id="cloudContainer"></section>
+
+      <section id="birdContainer"></section>
+
+      <section id="additionalContainer"></section>
+    </div>
+
+    <script src="assets/js/jquery.min.js" charset="utf-8"></script>
+
+    <script src="scripts/audio/audio.js" charset="utf-8"></script>
+      <script src="scripts/hider/hider.js" charset="utf-8"></script>
+        <script src="scripts/keyHook/keyHook.js" charset="utf-8"></script>
+          <script src="scripts/plane/plane.js" charset="utf-8"></script>
+        <script src="scripts/clouds/clouds.js" charset="utf-8"></script>
+      <script src="scripts/birds/birds.js" charset="utf-8"></script>
+    <script src="scripts/loop/loop.js" charset="utf-8"></script>
+
+    <script src="scripts/main.js" charset="utf-8"></script>
+    <script src="scripts/eventHandler/eventHandler.js" charset="utf-8"></script>
+
+  </body>
+</html>
