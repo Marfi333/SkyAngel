@@ -7,14 +7,27 @@ $(document).ready(function() {
 });
 
 
-
+let elementHit = new ElementHit();
 let audio = new Audion();
 let plane = new Plane( DEFAULTS.gameWidth, DEFAULTS.gameHeight );
 let clouds = [
+  new Cloud,
+  new Cloud,
+  new Cloud,
+  new Cloud,
   new Cloud
 ];
 let birds = [];
+let stars = [];
+let parachutes = [];
+let fuel = 10;
+let csillagok = 0;
 let frame = 0;
+
+let vanParachute = false;
+
+let ido = new Date();
+let masodPercek = 1;
 
 /* MAIN THREAD */
 MainThread.startFrame( function() {
@@ -27,6 +40,20 @@ MainThread.startFrame( function() {
       clouds = felhoGyar( clouds );
     }, 1000);
     clouds = felhoGyar( clouds );
+
+    birds = madarGyar( birds );
+
+  }
+
+  if ( ( masodPercek % 5 ) == 0 && frame == 30 )
+  {
+    stars = csillagGyar( stars, plane.horizontalPosition );
+  }
+
+  if ( fuel < 4 && vanParachute == false )
+  {
+    parachutes = uzemanyagGyar( parachutes, plane.horizontalPosition );
+    vanParachute = true;
   }
 
   if ( frame == 60 )
@@ -36,6 +63,9 @@ MainThread.startFrame( function() {
 
   DEFAULTS.sections.planeContainer.innerHTML = "";
   DEFAULTS.sections.cloudContainer.innerHTML = "";
+  DEFAULTS.sections.collectibleContainer.innerHTML = "";
+  DEFAULTS.sections.birdContainer.innerHTML = "";
+
   for ( let i = 0; i < clouds.length; i++ )
   {
     if ( clouds[i].horizontalPosition >= DEFAULTS.gameWidth )
@@ -43,11 +73,50 @@ MainThread.startFrame( function() {
       clouds.splice( i, 1 );
     }
   }
+
+  for ( let i = 0; i < birds.length; i++ )
+  {
+    if ( birds[i].horizontalPosition >= DEFAULTS.gameWith )
+    {
+      birds.splice( i, 1 );
+    }
+  }
+
+  for ( let i = 0; i < stars.length; i++ )
+  {
+    if ( stars[i].DOMElement == false )
+    {
+      stars.splice( i, 1 );
+    }
+  }
+
+  for ( let i = 0; i < parachutes.length; i++ )
+  {
+    if ( parachutes[i].DOMElement == false )
+    {
+      parachutes.splice( i, 1 );
+      vanParachute = false;
+    }
+  }
 });
 
 let started = 20;
 
 MainThread.updateFrame( function( delta ) {
+  elementHit.checkStarCollected( stars, plane );
+  /*if ( selfElement !== false )
+  {
+    audio.star();
+    for ( let i = 0; i < stars.length; i++ )
+    {
+      if ( stars[i] == selfElement )
+      {
+        stars.splice( i, 1 );
+        stars++;
+      }
+    }
+  }*/
+
   if ( started === 20 )
   {
     if ( plane.horizontalPosition <= (1024-325) ) started = false;
@@ -62,13 +131,67 @@ MainThread.updateFrame( function( delta ) {
   clouds.forEach( function( element ) {
     element.move( delta );
   });
+
+  birds.forEach( function( element ) {
+    element.move( delta );
+  });
+
+  stars.forEach( function( element ) {
+    element.move( delta );
+  });
+
+  parachutes.forEach( function( element ) {
+    element.move( delta );
+  });
 });
 
 MainThread.renderFrame( function() {
+  document.getElementById( "ido" ).innerHTML = masodPercek+" mp";
+  document.getElementById( "uzemanyag" ).innerHTML = fuel+" / 20 L";
+  document.getElementById( "csillag" ).innerHTML = csillagok+" stars";
+
   clouds.forEach( function( element ) {
     DEFAULTS.sections.cloudContainer.appendChild( element.DOMElement );
   });
+  birds.forEach( function( element ) {
+    if ( element.DOMElement !== false )
+    {
+      DEFAULTS.sections.birdContainer.appendChild( element.DOMElement );
+    }
+  });
   DEFAULTS.sections.planeContainer.appendChild( plane.generatePlane() );
+  stars.forEach( function( element ) {
+    if ( element.DOMElement !== false )
+    {
+      DEFAULTS.sections.collectibleContainer.appendChild( element.DOMElement );
+    }
+  });
+  parachutes.forEach( function( element ) {
+    if ( element.DOMElement !== false )
+    {
+      DEFAULTS.sections.collectibleContainer.appendChild( element.DOMElement );
+    }
+  });
+  /*parachutes.forEach( function( element ) {
+    DEFAULTS.sections.collectibleContainer.appendChild( element.DOMElement );
+  });*/
+
+  if ( started === false )
+  {
+    if ( new Date - ido >= 1000 )
+    {
+      console.log(masodPercek);
+      masodPercek++;
+      ido = new Date();
+
+      fuel--;
+    }
+
+    if ( fuel <= 0 )
+    {
+      gameOver();
+    }
+  }
 });
 /* MAIN THREAD */
 
@@ -78,6 +201,39 @@ document.getElementById( "startBtn" ).addEventListener( "click", function() {
     startGame();
   }, 500);
   functions.toggleStartScreen( "hide" );
+});
+
+document.getElementById( "stop" ).addEventListener( "click", function() {
+  pause( MainThread.getState() );
+});
+
+document.getElementById( "restartBtn" ).addEventListener( "click", function() {
+  setTimeout( function() {
+     plane = new Plane( DEFAULTS.gameWidth, DEFAULTS.gameHeight );
+     clouds = [
+      new Cloud,
+      new Cloud,
+      new Cloud,
+      new Cloud,
+      new Cloud
+    ];
+     birds = [];
+     stars = [];
+     parachutes = [];
+     fuel = 10;
+     csillagok = 0;
+     frame = 0;
+
+     vanParachute = false;
+
+     ido = new Date();
+     masodPercek = 1;
+     started = 20;
+    audio.finishMusic( "pause" );
+    startGame();
+  }, 500);
+  audio.backgroundMusic( "stop" );
+  functions.toggleEndScreen( "hide" );
 });
 
 window.addEventListener( "resize", function() {  /* HIDER */

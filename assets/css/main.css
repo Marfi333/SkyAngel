@@ -109,7 +109,60 @@ z-index: 0;
   opacity: 0;
 }
 
+#endScreen {
+  transition: .3s;
+  opacity: 0;
+}
+
+
+#interfaceSection {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  transition: .3s;
+  background: grey;
+  z-index: 500;
+  display: none;
+}
+
+.interface {
+  display: grid;
+  grid-template-columns: repeat( 5, 1fr );
+  grid-gap: 10px;
+  grid-template-areas: "gombok", "ido", "uzemanyag", "csillag", "logo";
+}
+
+
+.interfaceIdo {
+  grid-area: "ido";
+}
+
+.interfaceLogo {
+  grid-area: "logo";
+}
+
+.interfaceGombok {
+  grid-area: "gombok";
+}
+
+.interfaceCsillag {
+  grid-area: "csillag";
+}
+
+.interfaceUzemanyag {
+  grid-area: "uzemanyag";
+}
+
+
 .startScreen {
+  width: 374px; /* 373.8px */
+  z-index: 500;
+  transition: .3s;
+}
+
+.endScreen {
   width: 374px; /* 373.8px */
   z-index: 500;
   transition: .3s;

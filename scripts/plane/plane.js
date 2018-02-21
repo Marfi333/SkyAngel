@@ -2,7 +2,7 @@ class Plane
 {
   constructor( gW, gH )
   {
-    this.image = document.location + "assets/img/airplane/png/long-shadow/plane.png";
+    this.image = document.location.toString().replace("index.html", "") + "assets/img/airplane/png/long-shadow/plane.png";
     this.width = 325;
     this.height = 104;
     this.position = "fixed";
@@ -13,7 +13,7 @@ class Plane
     this.opacity = 1;
 
     this.horizontalStopPoints = [ 0, ( gW - this.width )+30 ];
-    this.verticalStopPoints = [ 0, ( gH - this.height )+16 ];
+    this.verticalStopPoints = [ 0, ( gH - this.height )-25 ];
   }
 
   setOpacity( op )

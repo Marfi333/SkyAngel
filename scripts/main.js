@@ -3,15 +3,20 @@ const DEFAULTS = {
   gameHeight: 768,
   windowWidth: window.innerWidth,
   windowHeight: window.innerHeight,
+  fuelMeter: null,
+  endStarCounter: document.getElementById( "endStarCounter" ),
+  endTimeCounter: document.getElementById( "endTimeCounter" ),
   sections: {
     body: document.getElementById( "body" ),
     main: document.getElementById( "main" ),
     startScreen: document.getElementById( "startScreen" ),
+    endScreen: document.getElementById( "endScreen" ),
     planeContainer: document.getElementById( "planeContainer" ),
     cloudContainer: document.getElementById( "cloudContainer" ),
     birdContainer: document.getElementById( "birdContainer" ),
-    additionalContainer: document.getElementById( "additionalContainer" ),
-    hiderContainer: document.getElementById( "hiderContainer" )
+    collectibleContainer: document.getElementById( "collectibleContainer" ),
+    hiderContainer: document.getElementById( "hiderContainer" ),
+    interface: document.getElementById( "interfaceSection" )
   },
   buttons: {
     startBtn: document.getElementById( "startBtn" ),
@@ -37,6 +42,32 @@ const functions = {
         DEFAULTS.sections.startScreen.style.opacity = 1;
       }, 200);
       DEFAULTS.sections.startScreen.style.display = "block";
+    }
+  },
+  toggleEndScreen: function( method ) {
+    if ( method == "hide" )
+    {
+      setTimeout( function() {
+        DEFAULTS.sections.endScreen.style.display = "none";
+      }, 200);
+      DEFAULTS.sections.endScreen.style.opacity = 0;
+    }
+    else if ( method == "show" )
+    {
+      setTimeout( function() {
+        DEFAULTS.sections.endScreen.style.opacity = 1;
+      }, 200);
+      DEFAULTS.sections.endScreen.style.display = "block";
+    }
+  },
+  toggleFinishScreen: function( method ) {
+    if ( method == "hide" )
+    {
+
+    }
+    else if ( method == "show" )
+    {
+      console.log("end");
     }
   },
   toggleButtons: function( movement ) {
@@ -144,11 +175,36 @@ function felhoGyar( arr )
   return arr;
 }
 
+function madarGyar( arr )
+{
+  setTimeout( function() {
+    arr.push( new Bird );
+  });
+
+  return arr;
+}
+
+function csillagGyar( arr, pW )
+{
+  arr.push( new Collectible( "star", { width: pW } ) );
+
+  return arr;
+}
+
+function uzemanyagGyar( arr, pW )
+{
+  arr.push( new Collectible( "parachute", { width: pW } ) );
+
+  return arr;
+}
+
 function startGame()
 {
   audio.backgroundMusic( "play" );
   MainThread.start();
   DEFAULTS.sections.planeContainer.appendChild( plane.generatePlane() );
+  functions.toggleEndScreen( "hide" );
+  DEFAULTS.sections.interface.style.display = "block";
 }
 
 function pause( p )
@@ -169,7 +225,11 @@ function userPlaneControls( delta )
 {
   window.onkeydown = function( e )
   {
-    if ( ( e.keyCode ? e.keyCode : e.which ) == 32 ) pause( MainThread.getState() );
+    if ( ( e.keyCode ? e.keyCode : e.which ) == 32 )
+    {
+      pause( MainThread.getState() );
+      audio.buttonPress();
+    }
   }
 
   window.addEventListener( 'keyup', function( event ) {
@@ -184,4 +244,25 @@ function userPlaneControls( delta )
   if ( functions.keys.isDown( functions.keys.LEFT ) ) plane.move( delta, "left", true );
   if ( functions.keys.isDown( functions.keys.DOWN ) ) plane.move( delta, "down", true );
   if ( functions.keys.isDown( functions.keys.RIGHT ) ) plane.move( delta, "right", true );
+}
+
+function gameOver()
+{
+  MainThread.stop();
+  DEFAULTS.sections.cloudContainer.innerHTML = "";
+  DEFAULTS.sections.planeContainer.innerHTML = "";
+  DEFAULTS.sections.birdContainer.innerHTML = "";
+  DEFAULTS.sections.collectibleContainer.innerHTML = "";
+
+  audio.backgroundMusic( "pause" );
+  audio.finishMusic( "play" );
+
+  functions.toggleEndScreen( "show" );
+
+  DEFAULTS.endStarCounter.innerHTML = csillagok;
+  DEFAULTS.endTimeCounter.innerHTML = masodPercek;
+
+  DEFAULTS.sections.interface.style.display = "none";
+
+  console.log("Game Over");
 }

@@ -22,9 +22,13 @@ class Audion
     {
       this.backgroundSound.play();
     }
-    else
+    else if ( state == "pause" )
     {
       this.backgroundSound.pause();
+    }
+    else if ( state == "stop" )
+    {
+      this.backgroundSound = this.getGameSound;
     }
   }
 
@@ -33,9 +37,16 @@ class Audion
     this.hitSound.play();
   }
 
-  finsih()
+  finishMusic( state )
   {
-    this.finishSound.play();
+    if ( state == "play" )
+    {
+      this.finishSound.play();
+    }
+    else
+    {
+      this.finishSound.pause();
+    }
   }
 
   star()
@@ -45,26 +56,26 @@ class Audion
 
   get getButtonSound()
   {
-    return new Audio( document.location + '/assets/sounds/button-3.mp3' );
+    return new Audio( document.location.toString().replace("index.html", "") + '/assets/sounds/button-3.mp3' );
   }
 
   get getFinishSound()
   {
-    return new Audio( document.location + '/assets/sounds/finish.mp3' );
+    return new Audio( document.location.toString().replace("index.html", "") + '/assets/sounds/finish.mp3' );
   }
 
   get getStarSound()
   {
-    return new Audio( document.location + '/assets/sounds/star.mp3' );
+    return new Audio( document.location.toString().replace("index.html", "") + '/assets/sounds/star.mp3' );
   }
 
   get getHitSound()
   {
-    return new Audio( document.location + '/assets/sounds/hit.mp3' );
+    return new Audio( document.location.toString().replace("index.html", "") + '/assets/sounds/hit.mp3' );
   }
 
   get getGameSound()
   {
-    return new Audio( document.location + '/assets/sounds/background.mp3' );
+    return new Audio( document.location.toString().replace("index.html", "") + '/assets/sounds/background.mp3' );
   }
 }

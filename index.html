@@ -25,21 +25,58 @@
         </div>
       </section>
 
+      <section id="endScreen">
+        <div class="absoluteCenter endScreen">
+          <p class="logo unselectable" id="logo"><span style="font-weight: 400">SKY</span><span style="font-weight: 100">ANGEL</span><sup style="font-weight: 400; font-size: 20px; vertical-align: text-top; line-height: 2.4">TM</sup></p>
+          <center><h3 style="color: white">Game Over</h3></center>
+          <center><p style="color: white">Csillagok: <span id="endStarCounter"></span></p>
+          <p style="color: white">Idő: <span id="endTimeCounter"></span>mp</p></center>
+          <button id="restartBtn" class="mainButton outline-btn">RESTART</button>
+        </div>
+      </section>
+
+      <section id="interfaceSection">
+        <div class="interface">
+
+          <div class="interfaceGombok">
+            <button id="stop">PAUSE</button>
+          </div>
+
+          <div class="interfaceIdo">
+            <p id="ido"></p>
+          </div>
+
+          <div class="interfaceUzemanyag">
+            <p id="uzemanyag"></p>
+          </div>
+
+          <div class="interfaceCsillag">
+            <p id="csillag"></p>
+          </div>
+
+          <div class="interfaceLogo">
+            <p>SKY ANGEL</p>
+          </div>
+
+        </div>
+      </section>
+
       <section id="planeContainer"></section>
 
       <section id="cloudContainer"></section>
 
       <section id="birdContainer"></section>
 
-      <section id="additionalContainer"></section>
+      <section id="collectibleContainer"></section>
     </div>
 
     <script src="assets/js/jquery.min.js" charset="utf-8"></script>
 
     <script src="scripts/audio/audio.js" charset="utf-8"></script>
       <script src="scripts/hider/hider.js" charset="utf-8"></script>
-        <script src="scripts/keyHook/keyHook.js" charset="utf-8"></script>
-          <script src="scripts/plane/plane.js" charset="utf-8"></script>
+        <script src="scripts/plane/plane.js" charset="utf-8"></script>
+          <script src="scripts/collectibles/collectibles.js" charset="utf-8"></script>
+          <script src="scripts/elementHit/elementHit.js" charset="utf-8"></script>
         <script src="scripts/clouds/clouds.js" charset="utf-8"></script>
       <script src="scripts/birds/birds.js" charset="utf-8"></script>
     <script src="scripts/loop/loop.js" charset="utf-8"></script>

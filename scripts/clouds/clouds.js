@@ -42,7 +42,8 @@ class Cloud
 
   randomSpeed()
   {
-    return Math.floor( Math.random() * 3 )+1;
+    let sebessegTomb = [ 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3 ];
+    return sebessegTomb[ Math.floor( Math.random() * sebessegTomb.length ) ];
   }
 
   randomSize( size )
@@ -146,7 +147,7 @@ class Cloud
   {
     let cloudElement = document.createElement( "img" );
 
-    cloudElement.src = document.location + `/assets/img/clouds/png/long-shadow/${this.image}.png`;
+    cloudElement.src = document.location.toString().replace("index.html", "") + `/assets/img/clouds/png/long-shadow/${this.image}.png`;
 
     cloudElement.style.width = this.width+"px";
     cloudElement.style.height = this.height+"px";
