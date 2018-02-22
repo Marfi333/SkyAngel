@@ -5,7 +5,7 @@ class ElementHit
 
   }
 
-  checkStarCollected( stars, plane )
+  checkStarCollected()
   {
     let planeRight = plane.horizontalPosition;
     let planeLeft = plane.horizontalPosition + plane.width;
@@ -13,29 +13,150 @@ class ElementHit
     let planeTop = plane.verticalPosition;
     let planeBottom = plane.verticalPosition + plane.height;
 
-    stars.forEach( function( element ) {
-      let starRight = element.collectibleHorizontalPosition;
-      let starLeft = element.collectibleHorizontalPosition + element.width;
+    var BreakErr = {};
 
-      let starTop = element.collectibleVerticalPosition;
-      let starBottom = element.collectibleVerticalPosition + element.height;
+    try
+    {
+      stars.forEach( function( element ) {
+        let starRight = element.collectibleHorizontalPosition;
+        let starLeft = element.collectibleHorizontalPosition + element.width;
 
-      if ( ( planeRight <= starLeft && planeRight >= starRight ) && ( planeTop <= starBottom && planeBottom >= starTop ) )
+        let starTop = element.collectibleVerticalPosition;
+        let starBottom = element.collectibleVerticalPosition + element.height;
+
+        if (
+          planeRight < starRight + element.width &&
+          planeRight + plane.width > starRight &&
+          planeTop < starTop + element.height &&
+          planeTop + plane.height > starTop &&
+          element !== gotCsillag
+         )
+         {
+          gotCsillag = element;
+          BreakErr.obj = element;
+          throw BreakErr;
+         }
+      });
+    }
+    catch( e )
+    {
+      for ( let i = 0; i < stars.length; i++ )
       {
-        return element;
+        if ( stars[i] == e.obj )
+        {
+          setTimeout( function() {
+            stars.splice( i, 1 );
+            audio.star();
+            csillagok+= 1;
+            return true;
+          }, 200);
+        }
       }
-    });
+    }
 
     return false;
   }
 
-  checkFuelCollected( fuels, plane )
+  checkFuelCollected()
   {
+    let planeRight = plane.horizontalPosition;
+    let planeLeft = plane.horizontalPosition + plane.width;
 
+    let planeTop = plane.verticalPosition;
+    let planeBottom = plane.verticalPosition + plane.height;
+
+    var BreakErrUzem = {};
+
+    try
+    {
+      parachutes.forEach( function( element ) {
+        let starRight = element.collectibleHorizontalPosition;
+        let starLeft = element.collectibleHorizontalPosition + element.width;
+
+        let starTop = element.collectibleVerticalPosition;
+        let starBottom = element.collectibleVerticalPosition + element.height;
+
+        if (
+          planeRight < starRight + element.width &&
+          planeRight + plane.width > starRight &&
+          planeTop < starTop + element.height &&
+          planeTop + plane.height > starTop &&
+          element !== gotFuel
+         )
+         {
+          gotFuel = element;
+          BreakErrUzem.obj = element;
+          throw BreakErrUzem;
+         }
+      });
+    }
+    catch( e )
+    {
+      for ( let i = 0; i < parachutes.length; i++ )
+      {
+        if ( parachutes[i] == e.obj )
+        {
+          setTimeout( function() {
+            parachutes.splice( i, 1 );
+            audio.star();
+            fuel+= 10;
+            vanParachute = false;
+            return true;
+          }, 200);
+        }
+      }
+    }
+
+    return false;
   }
 
-  checkBirdHit( birds, plane )
+  checkBirdHit()
   {
+    let planeRight = plane.horizontalPosition;
+    let planeLeft = plane.horizontalPosition + plane.width;
 
+    let planeTop = plane.verticalPosition;
+    let planeBottom = plane.verticalPosition + plane.height;
+
+    var BreakErrUzem = {};
+
+    try
+    {
+      birds.forEach( function( element ) {
+        let starRight = element.horizontalPosition;
+
+        let starTop = element.verticalPosition;
+
+        if (
+          planeRight < starRight + element.width &&
+          planeRight + plane.width > starRight &&
+          planeTop < starTop + element.height &&
+          planeTop + plane.height > starTop &&
+          element !== gotFuel
+         )
+         {
+          gotFuel = element;
+          BreakErrUzem.obj = element;
+          throw BreakErrUzem;
+         }
+      });
+    }
+    catch( e )
+    {
+      for ( let i = 0; i < birds.length; i++ )
+      {
+        if ( birds[i] == e.obj )
+        {
+          setTimeout( function() {
+            birds.splice( 0, -1 );
+            audio.hit();
+            gameOver();
+            return true;
+          }, 200);
+        }
+      }
+    }
+
+    return false;
   }
 }

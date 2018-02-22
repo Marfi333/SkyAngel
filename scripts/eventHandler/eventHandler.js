@@ -101,21 +101,13 @@ MainThread.startFrame( function() {
 });
 
 let started = 20;
+let gotCsillag;
+let gotFuel;
 
 MainThread.updateFrame( function( delta ) {
-  elementHit.checkStarCollected( stars, plane );
-  /*if ( selfElement !== false )
-  {
-    audio.star();
-    for ( let i = 0; i < stars.length; i++ )
-    {
-      if ( stars[i] == selfElement )
-      {
-        stars.splice( i, 1 );
-        stars++;
-      }
-    }
-  }*/
+  elementHit.checkStarCollected();
+  elementHit.checkFuelCollected();
+  elementHit.checkBirdHit();
 
   if ( started === 20 )
   {
@@ -207,6 +199,28 @@ document.getElementById( "stop" ).addEventListener( "click", function() {
   pause( MainThread.getState() );
 });
 
+let fS = 15;
+
+function toggleFontSize()
+{
+  if ( fS == 15 )
+  {
+    fS = 12;
+    return 12;
+  }
+  else
+  {
+    fS = 15;
+    return 15;
+  }
+}
+
+document.getElementById( "betuSize" ).addEventListener( "click", function() {
+  document.getElementById( "ido" ).style.fontSize = toggleFontSize()+"px";
+  document.getElementById( "uzemanyag" ).style.fontSize = toggleFontSize()+"px";
+  document.getElementById( "csillag" ).style.fontSize = toggleFontSize()+"px";
+});
+
 document.getElementById( "restartBtn" ).addEventListener( "click", function() {
   setTimeout( function() {
      plane = new Plane( DEFAULTS.gameWidth, DEFAULTS.gameHeight );
@@ -219,6 +233,8 @@ document.getElementById( "restartBtn" ).addEventListener( "click", function() {
     ];
      birds = [];
      stars = [];
+     gotCsillag;
+     gotFuel;
      parachutes = [];
      fuel = 10;
      csillagok = 0;
