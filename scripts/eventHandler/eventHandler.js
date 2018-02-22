@@ -172,7 +172,6 @@ MainThread.renderFrame( function() {
   {
     if ( new Date - ido >= 1000 )
     {
-      console.log(masodPercek);
       masodPercek++;
       ido = new Date();
 

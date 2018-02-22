@@ -67,7 +67,6 @@ const functions = {
     }
     else if ( method == "show" )
     {
-      console.log("end");
     }
   },
   toggleButtons: function( movement ) {
@@ -263,6 +262,4 @@ function gameOver()
   DEFAULTS.endTimeCounter.innerHTML = masodPercek;
 
   DEFAULTS.sections.interface.style.display = "none";
-
-  console.log("Game Over");
 }
