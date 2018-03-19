@@ -2,11 +2,9 @@
 
 SkyAngel webes játék
 
-### Készítők ( EnSlAVE Team ) ###
+### Készítő ###
 
 Németh Marcell
-Nagy Milán
-Péntek Máté
 
 ### A játék ###
 
