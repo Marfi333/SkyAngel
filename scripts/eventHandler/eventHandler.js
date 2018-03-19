@@ -29,20 +29,80 @@ let vanParachute = false;
 let ido = new Date();
 let masodPercek = 1;
 
+let bgColors = DEFAULTS.background;
+let backgrounds = { length: 3 };
+let bgCount = 0.1;
+let rendez = "asc";
+let napszak = false;
+
+function dayLight()
+{
+    if ( bgCount >= backgrounds.length )
+    {
+      rendez = "desc";
+      napszak = true;
+    }
+    else if ( bgCount <= 0.1 )
+    {
+      rendez = "asc";
+      napszak = true;
+    }
+
+    if ( rendez == "asc" )
+    {
+      bgColors.firstColor = chroma(bgColors.firstColor).darken(0.1);
+      bgColors.secondColor = chroma(bgColors.secondColor).darken(0.1);
+      bgCount+= 0.1;
+    }
+    else if ( rendez == "desc" )
+    {
+      bgColors.firstColor = chroma(bgColors.firstColor).brighten(0.1);
+      bgColors.secondColor = chroma(bgColors.secondColor).brighten(0.1);
+      bgCount-= 0.1;
+    }
+
+    main.style.background = `linear-gradient(to bottom, ${bgColors.firstColor} 0%, ${bgColors.secondColor} 100%)`;
+}
+
+let run = true;
+
 /* MAIN THREAD */
 MainThread.startFrame( function() {
 
   frame++;
 
-  if ( frame == 60 && clouds.length < 12 )
+  if ( frame >= 60 )
+  {
+    if ( napszak )
+    {
+      napszak = false;
+      run = false;
+
+      setTimeout( () => {
+        run = true;
+      }, 6000);
+    }
+    else
+    {
+      if ( run == true )
+      {
+        dayLight();
+      }
+    }
+  }
+
+  if ( frame == 30 && clouds.length < DEFAULTS.maxOnscreenClouds )
   {
     setTimeout( function() {
       clouds = felhoGyar( clouds );
     }, 1000);
     clouds = felhoGyar( clouds );
 
-    birds = madarGyar( birds );
+  }
 
+  if ( frame == 60 )
+  {
+    birds = madarGyar( birds );
   }
 
   if ( ( masodPercek % 5 ) == 0 && frame == 30 )
@@ -50,7 +110,8 @@ MainThread.startFrame( function() {
     stars = csillagGyar( stars, plane.horizontalPosition );
   }
 
-  if ( fuel < 4 && vanParachute == false )
+  // if ( fuel < 4 && vanParachute == false )
+  if ( fuel < 4 && vanParachute == false || Math.floor(Math.random()*2) == 1 && frame == 60 )
   {
     parachutes = uzemanyagGyar( parachutes, plane.horizontalPosition );
     vanParachute = true;
@@ -111,7 +172,7 @@ MainThread.updateFrame( function( delta ) {
 
   if ( started === 20 )
   {
-    if ( plane.horizontalPosition <= (1024-325) ) started = false;
+    if ( plane.horizontalPosition <= (DEFAULTS.gameWidth-325) ) started = false;
     plane.move(started, "right");
   }
 
@@ -138,8 +199,11 @@ MainThread.updateFrame( function( delta ) {
 });
 
 MainThread.renderFrame( function() {
+
   document.getElementById( "ido" ).innerHTML = masodPercek+" mp";
-  document.getElementById( "uzemanyag" ).innerHTML = fuel+" / 20 L";
+
+  setGauge(document.getElementById("uzemanyagDisplay"),(((fuel-0)*100) / (20-0)) );
+
   document.getElementById( "csillag" ).innerHTML = csillagok+" stars";
 
   clouds.forEach( function( element ) {
@@ -214,10 +278,21 @@ function toggleFontSize()
   }
 }
 
-document.getElementById( "betuSize" ).addEventListener( "click", function() {
-  document.getElementById( "ido" ).style.fontSize = toggleFontSize()+"px";
-  document.getElementById( "uzemanyag" ).style.fontSize = toggleFontSize()+"px";
-  document.getElementById( "csillag" ).style.fontSize = toggleFontSize()+"px";
+window.my_mute = false;
+
+$('#sound').bind('click', function(){
+
+    if ( my_mute )
+    {
+      audio.backgroundMusic("play");
+    }
+    else
+    {
+      audio.backgroundMusic("pause");
+    }
+
+    my_mute = !my_mute;
+
 });
 
 document.getElementById( "restartBtn" ).addEventListener( "click", function() {

@@ -1,6 +1,6 @@
 const DEFAULTS = {
-  gameWidth: 1024,
-  gameHeight: 768,
+  gameWidth: window.innerWidth,
+  gameHeight: window.innerHeight,
   windowWidth: window.innerWidth,
   windowHeight: window.innerHeight,
   fuelMeter: null,
@@ -21,11 +21,63 @@ const DEFAULTS = {
   buttons: {
     startBtn: document.getElementById( "startBtn" ),
     instructionsBtn: document.getElementById( "instructionsBtn" ),
+    constrolsBtn: document.getElementById( "controlsBtn" ),
     backBtn: document.getElementById( "backBtn" ),
-    instructionsImg: document.getElementById( "instructionsImg" )
+    secondaryButtons: document.getElementById("secondaryButtons")
   },
-  maxOnscreenClouds: 8
+  instructionsImg: document.getElementById( "instructionsImg" ),
+  maxOnscreenClouds: 15,
+  background: {
+    firstColor: "#3B86F7",
+    secondColor: "#9DC3FB"
+  },
+  backgrounds: [
+    "linear-gradient(to bottom, rgba(59, 134, 247,1) 0%, rgba(157, 195, 251,1) 100%)",
+    "linear-gradient(to bottom, rgba(52,130,247,1) 0%, rgba(133, 180, 250,1) 100%)",
+    "linear-gradient(to bottom, rgba(7, 73, 171,1) 0%, rgba(108, 164, 249,1) 100%)",
+    "linear-gradient(to bottom, rgba(7,73,171,1) 0%, rgba(59,134,247,1) 100%)",
+    "linear-gradient(to bottom, rgba(5,52,122,1) 0%, rgba(52,130,247,1) 100%)",
+    "linear-gradient(to bottom, rgba(4,42,98,1) 0%, rgba(9,94,220,1) 100%)"
+  ]
 }
+/*
+$(document).ready(function() {
+
+  let bgColors = DEFAULTS.background;
+  let backgrounds = { length: 4 };
+  let bgCount = 0.1;
+  let rendez = "asc";
+
+  setInterval( () => {
+    if ( bgCount >= backgrounds.length )
+    {
+      rendez = "desc";
+      napszak = true;
+    }
+    else if ( bgCount <= 0.1 )
+    {
+      rendez = "asc";
+      napszak = true;
+    }
+
+    if ( rendez == "asc" )
+    {
+      bgColors.firstColor = chroma(bgColors.firstColor).darken(0.1);
+      bgColors.secondColor = chroma(bgColors.secondColor).darken(0.1);
+      bgCount+= 0.1;
+    }
+    else if ( rendez == "desc" )
+    {
+      bgColors.firstColor = chroma(bgColors.firstColor).brighten(0.1);
+      bgColors.secondColor = chroma(bgColors.secondColor).brighten(0.1);
+      bgCount-= 0.1;
+    }
+
+    main.style.background = `linear-gradient(to bottom, ${bgColors.firstColor} 0%, ${bgColors.secondColor} 100%)`;
+  }, 100);
+
+});
+*/
 
 const functions = {
   toggleStartScreen: function( method ) {
@@ -79,38 +131,44 @@ const functions = {
     {
       setTimeout( function() {
         startBtn.style.display = "none";
-        instructionsBtn.style.display = "none";
+        // instructionsBtn.style.display = "none";
+        DEFAULTS.buttons.secondaryButtons.style.display = "none";
         backBtn.style.display = "block";
         backBtn.style.top = "-220px";
-        instructionsImg.style.display = "block";
+        DEFAULTS.instructionsImg.style.display = "block";
 
         startBtn.style.opacity = "1";
-        instructionsBtn.style.opacity = "1";
+        // instructionsBtn.style.opacity = "1";
         backBtn.style.opacity = "1";
-        instructionsImg.style.opacity = "1";
+        DEFAULTS.instructionsImg.style.opacity = "1";
+        DEFAULTS.buttons.secondaryButtons.style.opacity = "1";
       }, 200);
       startBtn.style.opacity = "0";
-      instructionsBtn.style.opacity = "0";
+      // instructionsBtn.style.opacity = "0";
       backBtn.style.opacity = "0";
-      instructionsImg.style.opacity = "0";
+      DEFAULTS.instructionsImg.style.opacity = "0";
+      DEFAULTS.buttons.secondaryButtons.style.opacity = "0";
     }
     else if ( movement == false )
     {
       setTimeout( function() {
         startBtn.style.display = "block";
-        instructionsBtn.style.display = "block";
+        // instructionsBtn.style.display = "block";
+        DEFAULTS.buttons.secondaryButtons.style.display = "grid";
         backBtn.style.display = "none";
-        instructionsImg.style.display = "none";
+        DEFAULTS.instructionsImg.style.display = "none";
 
         startBtn.style.opacity = "1";
-        instructionsBtn.style.opacity = "1";
+        // instructionsBtn.style.opacity = "1";
+        DEFAULTS.buttons.secondaryButtons.style.opacity = "1";
         backBtn.style.opacity = "1";
-        instructionsImg.style.opacity = "1";
+        DEFAULTS.instructionsImg.style.opacity = "1";
       }, 200);
       startBtn.style.opacity = "0";
-      instructionsBtn.style.opacity = "0";
+      // instructionsBtn.style.opacity = "0";
+      DEFAULTS.buttons.secondaryButtons.style.opacity = "0";
       backBtn.style.opacity = "0";
-      instructionsImg.style.opacity = "0";
+      DEFAULTS.instructionsImg.style.opacity = "0";
     }
   },
   hiders: new Hider({
@@ -150,6 +208,11 @@ const functions = {
     RIGHT: 39,
     DOWN: 40,
     PAUSE: 32,
+
+    W: 87,
+    A: 65,
+    S: 83,
+    D: 68,
 
     isDown: function(keyCode) {
       return this._pressed[keyCode];
@@ -206,6 +269,34 @@ function startGame()
   DEFAULTS.sections.interface.style.display = "block";
 }
 
+function runAllGauges()
+{
+  var gauges = $('.gauge-cont');
+  $.each(gauges, function(i, v){
+    var self = this;
+		setTimeout(function(){
+        setGauge(self);
+    },i * 700);
+  });
+}
+
+function setGauge(gauge, perc)
+{
+  var percentage = perc / 100;
+
+  var degrees = 180 * percentage;
+  var pointerDegrees = degrees - 90;
+  var spinner = $(gauge).find('.spinner');
+  var pointer = $(gauge).find('.pointer');
+  $(spinner).attr({
+    style: 'transform: rotate(' + degrees + 'deg)'
+  });
+
+  $(pointer).attr({
+    style: 'transform: rotate(' + pointerDegrees + 'deg)'
+  });
+}
+
 function pause( p )
 {
   if ( !p )
@@ -239,10 +330,10 @@ function userPlaneControls( delta )
     functions.keys.onKeydown( event );
   }, false);
 
-  if ( functions.keys.isDown( functions.keys.UP ) ) plane.move( delta, "up", true );
-  if ( functions.keys.isDown( functions.keys.LEFT ) ) plane.move( delta, "left", true );
-  if ( functions.keys.isDown( functions.keys.DOWN ) ) plane.move( delta, "down", true );
-  if ( functions.keys.isDown( functions.keys.RIGHT ) ) plane.move( delta, "right", true );
+  if ( functions.keys.isDown( functions.keys.UP ) || functions.keys.isDown( functions.keys.W ) ) plane.move( delta, "up", true );
+  if ( functions.keys.isDown( functions.keys.LEFT ) || functions.keys.isDown( functions.keys.A ) ) plane.move( delta, "left", true );
+  if ( functions.keys.isDown( functions.keys.DOWN ) || functions.keys.isDown( functions.keys.S ) ) plane.move( delta, "down", true );
+  if ( functions.keys.isDown( functions.keys.RIGHT ) || functions.keys.isDown( functions.keys.D ) ) plane.move( delta, "right", true );
 }
 
 function gameOver()

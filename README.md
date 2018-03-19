@@ -1,19 +1,20 @@
 # README #
 
-Ez a játék a WorldSkills 2019-es versenyére készült.
+SkyAngel webes játék
 
-### Készítő ###
+### Készítők ( EnSlAVE Team ) ###
 
 Németh Marcell
-
-
-### A játék struktúra képfájljai ###
-
-Mindkét kép a dokumentum gyökérkönyvtárában találhatóak
-- game.png
-- start.png
-- instructions.png
+Nagy Milán
+Péntek Máté
 
 ### A játék ###
 
-A játékhoz a gyökérkönyvtárban található index.html fájlt kell egy böngészőben futtatni.
+A játék egy koreszű böngészőben elindítva futtatható.
+A játék lényege, hogy a repülönkkel kikerüljük a szembe jövő madarakat, illetve gyűjtsük a csillagokat és ejtőernyőket. Utóbbi az üzemanyag növelésére szolgál. Ha elfogy az üzemanyag, illetve ha a repülő ütközik egy madárral, a játéknak vége. Maximum 20L üzemanyag gyűjthető. A csilalgok felsőhatára nincs meghatározva.
+
+### A játék programozási részéről ###
+
+A játék standard HTML/CSS/JavaScript szabványokkal íródott.
+A játék jquery library-t használ egyes helyeken, illetve chroma library-t a háttérszínek kezelésére.
+A játék fő funkciói, működése, mind saját fejlesztés.

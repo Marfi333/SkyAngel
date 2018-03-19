@@ -55,21 +55,59 @@ body {
 }
 
 #main {
-  width: 1024px;
-  height: 768px;
-  background: -moz-linear-gradient(top, rgba(52,130,247,1) 0%, rgba(38,212,235,1) 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(52,130,247,1)), color-stop(100%, rgba(38,212,235,1)));
-background: -webkit-linear-gradient(top, rgba(52,130,247,1) 0%, rgba(38,212,235,1) 100%);
-background: -o-linear-gradient(top, rgba(52,130,247,1) 0%, rgba(38,212,235,1) 100%);
-background: -ms-linear-gradient(top, rgba(52,130,247,1) 0%, rgba(38,212,235,1) 100%);
-background: linear-gradient(to bottom, rgba(52,130,247,1) 0%, rgba(38,212,235,1) 100%);
-
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(59, 134, 247,1) 0%, rgba(157, 195, 251,1) 100%);
+  transition: background 0.5s;
 position: absolute;
 top: 50%;
 left: 50%;
 transform: translateX(-50%) translateY(-50%);
 
 z-index: 0;
+}
+
+.bgContainerImage {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  position: fixed;
+  transition: .5s;
+}
+
+.gauge {
+  width: 320px;
+  height: 240px;
+}
+
+.bg1 {
+background: linear-gradient(to bottom, rgba(59, 134, 247,1) 0%, rgba(157, 195, 251,1) 100%);
+transition: background 0.5s;
+}
+
+.bg2 {
+background: linear-gradient(to bottom, rgba(52,130,247,1) 0%, rgba(133, 180, 250,1) 100%);
+transition: background 0.5s;
+}
+
+.bg3 {
+background: linear-gradient(to bottom, rgba(7, 73, 171,1) 0%, rgba(108, 164, 249,1) 100%);
+transition: background 0.5s;
+}
+
+.bg4 {
+background: linear-gradient(to bottom, rgba(7,73,171,1) 0%, rgba(59,134,247,1) 100%);
+transition: background 0.5s;
+}
+
+.bg5 {
+background: linear-gradient(to bottom, rgba(5,52,122,1) 0%, rgba(52,130,247,1) 100%);
+transition: background 0.5s;
+}
+
+.bg6 {
+background: linear-gradient(to bottom, rgba(4,42,98,1) 0%, rgba(9,94,220,1) 100%);
+transition: background 0.5s;
 }
 
 .absoluteCenter {
@@ -122,13 +160,40 @@ z-index: 0;
   left: 0;
   width: 100%;
   transition: .3s;
-  background: grey;
+  /* background: #595959; */
+  background: #001f3f;
   z-index: 500;
   display: none;
 }
 
+.finishStats {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.finishStatsLogo {
+  justify-self: left;
+  font-size: 26px;
+  font-weight: 300;
+  margin-top: 5px;
+  padding-top: 7px;
+}
+
+.finishStatsTime {
+  margin-top: 7px;
+  font-size: 21px;
+}
+
+.finishStatsStars {
+  margin-top: 7px;
+  font-size: 21px;
+}
+
 .interface {
-  height: 40px;
+  height: 50px;
   display: grid;
   grid-template-columns: repeat( 5, 1fr );
   grid-gap: 10px;
@@ -139,15 +204,136 @@ z-index: 0;
   justify-content: center;
 }
 
+.uzemanyagHolder {
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  background: #0074d9;
+  margin-bottom: -210px;
+}
+
+.gauge-cont {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 100px;
+  margin-left: 30px;
+  bottom: -30px
+}
+
+.gauge {
+  width: 200px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  width: 200px;
+  height: 100px;
+  display: block;
+  /* background-color: #444444; */
+  background: rgba(0,31,63,0.4);
+  border-radius: 200px 200px 0 0;
+  z-index: 1;
+}
+.inner:after {
+  content: '';
+  width: 120px;
+  height: 60px;
+  top: 40px;
+  left: 40px;
+  /* background-color: #2a2a2a; */
+  background: #0074d9;
+  border-radius: 200px 200px 0 0;
+  position: absolute;
+  z-index: 3;
+}
+
+.spinner {
+  width: 200px;
+  height: 100px;
+  background-color: #70b37d;
+  position: absolute;
+  z-index: 2;
+  -webkit-transform-origin: top center;
+          transform-origin: top center;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 800ms ease;
+  transition: -webkit-transform 800ms ease;
+  transition: transform 800ms ease;
+  transition: transform 800ms ease, -webkit-transform 800ms ease;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  border-radius: 0 0 200px 200px;
+}
+.spinner.alt {
+  /* background-color: #0074d9; */
+  background: #001f3f;
+}
+
+.gauge-cont:first-child {
+  margin: 0;
+}
+
+.pointer {
+  display: block;
+  width: 6px;
+  height: 105px;
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+  position: absolute;
+  z-index: 4;
+  bottom: 0px;
+  left: 97px;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  -webkit-transform-origin: center bottom;
+          transform-origin: center bottom;
+  -webkit-transition: -webkit-transform 800ms ease;
+  transition: -webkit-transform 800ms ease;
+  transition: transform 800ms ease;
+  transition: transform 800ms ease, -webkit-transform 800ms ease;
+}
+
+.pointer-knob {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  position: absolute;
+  left: 90px;
+  bottom: -10px;
+  z-index: 5;
+  border-radius: 20px;
+}
 
 .interfaceIdo {
   grid-area: "ido";
+  justify-self: right;
+  color: white;
+}
+
+.control-btn {
+  background: rgba(0,0,0,0.1);
+  color: white;
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 3px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.control-btn:hover {
+background: rgba(0,0,0,0.3);
+transition: 0.3s;
 }
 
 .interfaceLogo {
   grid-area: "logo";
   text-align: right;
   margin-right: 10px;
+  color: white;
 }
 
 .interfaceGombok {
@@ -157,12 +343,15 @@ z-index: 0;
 
 .interfaceCsillag {
   grid-area: "csillag";
-  text-align: right;
+  justify-self: left;
+  color: white;
 }
 
 .interfaceUzemanyag {
   grid-area: "uzemanyag";
   text-align: center;
+  display: grid;
+  justify-items: center;
 }
 
 
@@ -178,9 +367,27 @@ z-index: 0;
   transition: .3s;
 }
 
+.flexBtn {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-gap: 20px
+}
+
+.instructions-btn {
+  width: 100%;
+}
+
+.controls-btn {
+  width: 100%;
+}
+
+.disclaimer {
+  color: white;
+  text-align: center;
+}
+
 .full-btn {
   cursor: pointer;
-  width: 100%;
   height: 60px;
   background: rgba(255,255,255,.8);
   border-radius: 6px;

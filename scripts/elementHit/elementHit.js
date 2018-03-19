@@ -99,7 +99,14 @@ class ElementHit
           setTimeout( function() {
             parachutes.splice( i, 1 );
             audio.star();
-            fuel+= 10;
+            if ( fuel + 10 <= 20 )
+            {
+              fuel+= 10;
+            }
+            else
+            {
+              fuel = 20;
+            }
             vanParachute = false;
             return true;
           }, 200);
@@ -112,11 +119,11 @@ class ElementHit
 
   checkBirdHit()
   {
-    let planeRight = plane.horizontalPosition;
-    let planeLeft = plane.horizontalPosition + plane.width;
+    let planeRight = plane.horizontalPosition+10;
+    let planeLeft = plane.horizontalPosition + plane.width-10;
 
-    let planeTop = plane.verticalPosition;
-    let planeBottom = plane.verticalPosition + plane.height;
+    let planeTop = plane.verticalPosition+10;
+    let planeBottom = plane.verticalPosition + plane.height-10;
 
     var BreakErrUzem = {};
 

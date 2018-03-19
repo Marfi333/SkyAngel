@@ -4,6 +4,7 @@
     <meta charset="utf-8">
       <title>SKY ANGEL</title>
       <meta name="viewport" content="width=device-width;initial-scale=0">
+      <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/clouds.css">
   </head>
@@ -12,6 +13,7 @@
     <section id="hiderContainer"></section>
 
     <div id="main">
+
       <section id="startScreen">
         <div class="absoluteCenter startScreen">
           <p class="logo unselectable" id="logo"><span style="font-weight: 400">SKY</span><span style="font-weight: 100">ANGEL</span><sup style="font-weight: 400; font-size: 20px; vertical-align: text-top; line-height: 2.4">TM</sup></p>
@@ -21,17 +23,25 @@
           <img id="instructionsImg" class="unselectable undraggable" src="assets/img/instructions.png">
 
           <button id="startBtn" class="mainButton outline-btn">START</button>
-          <button id="instructionsBtn" class="mainButton full-btn">HOW TO PLAY</button>
+          <div id="secondaryButtons" class="flexBtn">
+            <button id="instructionsBtn" class="mainButton full-btn instructions-btn">HOW TO PLAY</button>
+            <button id="controlsBtn" class="mainButton full-btn controls-btn"><i class="fas fa-cog"></i></button>
+          </div>
         </div>
       </section>
 
       <section id="endScreen">
         <div class="absoluteCenter endScreen">
           <p class="logo unselectable" id="logo"><span style="font-weight: 400">SKY</span><span style="font-weight: 100">ANGEL</span><sup style="font-weight: 400; font-size: 20px; vertical-align: text-top; line-height: 2.4">TM</sup></p>
-          <center><h3 style="color: white">Game Over</h3></center>
-          <center><p style="color: white">Csillagok: <span id="endStarCounter"></span></p>
-          <p style="color: white">Idő: <span id="endTimeCounter"></span>mp</p></center>
+
+          <div class="finishStats">
+            <h3 class="finishStatsLogo" style="color: white">Game Over</h3>
+            <p class="finishStatsStars" style="color: white"><i class="fas fa-star"></i> <span id="endStarCounter"></span></p>
+            <p class="finishStatsTime" style="color: white"><i class="fas fa-clock"></i> <span id="endTimeCounter"></span>mp</p>
+          </div>
+
           <button id="restartBtn" class="mainButton outline-btn">RESTART</button>
+          <button id="mainMenuButton" onclick="location.reload()" class="mainButton full-btn controls-btn">BACK TO MAIN MENU</button>
         </div>
       </section>
 
@@ -39,24 +49,40 @@
         <div class="interface">
 
           <div class="interfaceGombok">
-            <button id="stop">PAUSE</button>
-            <button id="betuSize">LETTERS</button>
+            <button class="control-btn" id="stop"><i class="fas fa-pause" style="padding: 2px 4px 2px 4px"></i></button>
+            <button class="control-btn" id="sound" style="padding: 7px 12px 6px 12px; margin-left: 7px;"><i class="fas fa-volume-off"></i></button>
           </div>
 
           <div class="interfaceIdo">
-            <p id="ido"></p>
+            <span style="display: flex">
+              <p id="ido" style="padding-top: 1px; margin-right: 10px; font-size: 21px">15:00</p>
+              <i class="fas fa-clock" style="font-size: 25px; padding-top: 23px"></i>
+            </span>
           </div>
 
-          <div class="interfaceUzemanyag">
-            <p id="uzemanyag"></p>
+          <div id="ifaceUzemanyag" class="interfaceUzemanyag" style="margin-bottom: 200px;">
+          <p id="uzemanyag" style="display: none"></p>
+            <div class="uzemanyagHolder">
+              <div id="uzemanyagDisplay" class="gauge-cont" data-percentage="100">
+                <div class="gauge">
+                  <div class="inner"></div>
+                  <div id="gg" class="spinner alt"></div>
+                </div>
+                <div class="pointer"></div>
+                <div class="pointer-knob"></div>
+              </div>
+            </div>
           </div>
 
           <div class="interfaceCsillag">
-            <p id="csillag"></p>
+            <span style="display: flex">
+              <i class="fas fa-star" style="font-size: 25px; padding-top: 21px"></i>
+              <p id="csillag" style="padding-top: 14px">15</p>
+            </span>
           </div>
 
           <div class="interfaceLogo">
-            <p>SKY ANGEL</p>
+            <p style="font-weight: 200"><span style="font-weight: 400">SKY</span>ANGEL</p>
           </div>
 
         </div>
@@ -72,6 +98,7 @@
     </div>
 
     <script src="assets/js/jquery.min.js" charset="utf-8"></script>
+    <script src="assets/js/chroma.min.js" charset="utf-8"></script>
 
     <script src="scripts/audio/audio.js" charset="utf-8"></script>
       <script src="scripts/hider/hider.js" charset="utf-8"></script>

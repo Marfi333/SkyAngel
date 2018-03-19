@@ -8,7 +8,7 @@ class Bird
     this.image = cloud.image;
     this.speed = this.randomSpeed();
 
-    let size = this.randomSize( [ cloud.width, cloud.height ] );
+    let size = this.randomSize( [ (cloud.width/6), (cloud.height/6) ] );
     this.width = size.width;
     this.height = size.height;
 
@@ -81,8 +81,33 @@ class Bird
     return [
       {
         image: 'bird-1',
-        width: 59,//356
-        height: 34,//209
+        width: 356,//356
+        height: 209,//209
+      },
+      {
+        image: 'bird-2',
+        width: 356,//356
+        height: 175,//209
+      },
+      {
+        image: 'bird-4',
+        width: 372,//356
+        height: 187,//209
+      },
+      {
+        image: 'bird-4',
+        width: 354,//356
+        height: 212,//209
+      },
+      {
+        image: 'bird-5',
+        width: 382,//356
+        height: 263,//209
+      },
+      {
+        image: 'bird-6',
+        width: 356,//356
+        height: 341,//209
       }
     ];
   }
