@@ -1,6 +1,7 @@
 # README #
 
 SkyAngel webes játék
+https://lucid-jennings-db2315.netlify.app/
 
 ### Készítő ###
 
